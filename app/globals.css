@@ -4,10 +4,9 @@
 @tailwind utilities;
 
 body {
-  background: #000;
-  cursor: none; /* Bach n-khdmo b l-cursor dialna */
+  background: #f7eeee00;
+  
 }
-
 :root {
   --background: #ffffff;
   --foreground: #171717;

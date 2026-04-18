@@ -1,33 +1,99 @@
 "use client";
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Book, GraduationCap, Microscope, Award, ArrowUpRight, Mail, MapPin, Globe, FileText } from 'lucide-react';
 
-export default function Home() {
+import React, { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  Book, 
+  GraduationCap, 
+  Microscope, 
+  Award, 
+  ArrowUpRight, 
+  Mail, 
+  MapPin, 
+  ExternalLink, 
+  FileText,
+  ArrowRight,
+  Globe
+} from 'lucide-react';
+
+export default function AcademicPortfolio() {
+  const cursorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Force mouse visibility for accessibility
+    document.body.style.cursor = 'auto';
+    
+    const moveCursor = (e: MouseEvent) => {
+      if (cursorRef.current) {
+        requestAnimationFrame(() => {
+          if (cursorRef.current) {
+            cursorRef.current.style.left = `${e.clientX}px`;
+            cursorRef.current.style.top = `${e.clientY}px`;
+          }
+        });
+      }
+    };
+    window.addEventListener('mousemove', moveCursor);
+    return () => window.removeEventListener('mousemove', moveCursor);
+  }, []);
+
+  const books = [
+    { 
+      year: "2024", 
+      title: "L'Orthodontie de l'enfant", 
+      desc: "Guide complet sur la croissance dento-faciale et les protocoles thérapeutiques.", 
+      url: "https://www.amazon.ca/-/fr/FARID-BOURZGUI/dp/9999334849" 
+    },
+    { 
+      year: "2023", 
+      title: "Contemporary Orthodontics", 
+      desc: "Issues and trends in modern clinical practice and digital orthodontics.", 
+      url: "https://www.amazon.ca/-/fr/Issues-Contemporary-Orthodontics-Farid-Bourzgui/dp/9535121618" 
+    },
+    { 
+      year: "2022", 
+      title: "Basic Aspects & Clinical", 
+      desc: "Fundamentals of orthodontic treatment planning and biological principles.", 
+      url: "https://www.amazon.ca/-/fr/Orthodontics-Basic-Aspects-Clinical-Considerations/dp/9535101439" 
+    }
+  ];
+
   return (
     <main className="bg-[#FAF9F6] text-[#1a1a1a] min-h-screen selection:bg-[#C5A059] selection:text-white font-sans overflow-x-hidden">
       
-      {/* Navigation - High-End & Minimalist */}
-      <nav className="flex justify-between items-center px-8 md:px-12 py-8 fixed w-full z-50 bg-[#FAF9F6]/90 backdrop-blur-sm border-b border-black/5">
-        <span className="font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs">Prof. Farid Bourzgui</span>
+      {/* 🛑 CUSTOM CSS FOR SERIF FONT 🛑 */}
+      <style jsx global>{`
+        html { scroll-behavior: smooth; }
+        .font-serif { font-family: 'Times New Roman', serif; }
+      `}</style>
+
+      {/* Subtle Luxury Cursor */}
+      <div 
+        ref={cursorRef}
+        className="fixed w-8 h-8 border border-[#C5A059]/30 rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 transition-transform duration-150 ease-out hidden md:block"
+      />
+
+      {/* Navigation */}
+      <nav className="flex justify-between items-center px-8 md:px-12 py-8 fixed w-full z-50 bg-[#FAF9F6]/90 backdrop-blur-md border-b border-black/5">
+        <span className="font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs text-[#0D1B2A]">Prof. Farid Bourzgui</span>
         <div className="hidden md:flex space-x-12 text-[10px] uppercase tracking-[0.2em] font-semibold opacity-60">
-          <a href="#about" className="hover:opacity-100 transition-all border-b border-transparent hover:border-[#C5A059]">Parcours</a>
-          <a href="#research" className="hover:opacity-100 transition-all border-b border-transparent hover:border-[#C5A059]">Publications</a>
-          <a href="#contact" className="hover:opacity-100 transition-all border-b border-transparent hover:border-[#C5A059]">Contact</a>
+          <a href="#about" className="hover:opacity-100 hover:text-[#C5A059] transition-all">Parcours</a>
+          <a href="#research" className="hover:opacity-100 hover:text-[#C5A059] transition-all">Publications</a>
+          <a href="#contact" className="hover:opacity-100 hover:text-[#C5A059] transition-all">Contact</a>
         </div>
       </nav>
 
-      {/* Hero Section - The Professor's Portrait */}
+      {/* HERO SECTION */}
       <section className="min-h-screen flex flex-col justify-center px-8 md:px-12 pt-20">
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
             className="lg:col-span-7 order-2 lg:order-1"
           >
-            <span className="inline-block px-4 py-1 border border-[#C5A059] text-[#C5A059] text-[10px] uppercase tracking-[0.3em] mb-8">
+            <span className="inline-block px-4 py-1 border border-[#C5A059] text-[#C5A059] text-[10px] uppercase tracking-[0.3em] mb-8 font-bold">
               Orthodontie & Orthopédie Dento-Faciale
             </span>
             <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif leading-[0.85] mb-8 text-[#0D1B2A]">
@@ -35,154 +101,153 @@ export default function Home() {
               <span className="italic text-[#C5A059]">Bourzgui</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-500 max-w-xl leading-relaxed font-light italic">
-              "Chef de service d'ODF au CCTD de Casablanca. Une vie dédiée à l'enseignement, la recherche et l'excellence clinique."
+              "Une vie dédiée à l'enseignement, la recherche et l'excellence clinique."
             </p>
-            <div className="mt-10 flex gap-4">
-               <a href="#research" className="bg-[#0D1B2A] text-white px-8 py-4 rounded-sm text-xs uppercase tracking-widest hover:bg-[#C5A059] transition-colors duration-500">
+            <div className="mt-12 flex items-center gap-8">
+               <a href="#research" className="bg-[#0D1B2A] text-white px-10 py-5 rounded-sm text-[10px] font-bold uppercase tracking-widest hover:bg-[#C5A059] transition-all duration-500 shadow-xl">
                  Consulter les travaux
                </a>
+               <div className="hidden sm:block h-px w-20 bg-[#C5A059]/30" />
             </div>
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2 }}
+            transition={{ duration: 1 }}
             className="lg:col-span-5 order-1 lg:order-2 relative"
           >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-sm shadow-2xl border border-black/5">
+            <div className="relative aspect-[4/5] overflow-hidden shadow-2xl border border-black/5">
               <img 
-                src="/1.jpg" // Sourtou li derti f public/1.jpeg
+                src="/1.jpg" 
                 alt="Pr. Farid Bourzgui"
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out scale-105 hover:scale-100"
               />
-              <div className="absolute inset-0 border-[15px] border-[#FAF9F6]/20 m-4 pointer-events-none" />
             </div>
-            {/* Professional Label */}
-            <div className="absolute -bottom-6 -right-6 bg-white p-6 shadow-xl border-l-4 border-[#C5A059] hidden md:block">
-               <p className="text-[10px] uppercase tracking-widest font-bold text-[#0D1B2A]">Faculté de Médecine Dentaire</p>
-               <p className="text-[9px] text-gray-400 mt-1 uppercase tracking-tighter">Casablanca, Maroc</p>
+            <div className="absolute -bottom-6 -left-6 bg-white p-8 shadow-2xl border-l-4 border-[#C5A059] hidden md:block">
+               <p className="text-[10px] uppercase tracking-widest font-black text-[#0D1B2A]">Directeur de Service</p>
+               <p className="text-[9px] text-gray-400 mt-1 uppercase tracking-tighter font-bold">CCTD Casablanca</p>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Description Section - Detailed Biography */}
+      {/* ABOUT SECTION */}
       <section id="about" className="py-32 bg-white px-8 md:px-12">
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
             <div className="md:col-span-4">
-              <h2 className="text-4xl font-serif text-[#0D1B2A] sticky top-32">À propos du <br/>Professeur</h2>
+              <h2 className="text-5xl font-serif text-[#0D1B2A] sticky top-32 leading-tight uppercase tracking-tighter">Le Parcours</h2>
+              <div className="mt-6 h-1 w-12 bg-[#C5A059]" />
             </div>
-            <div className="md:col-span-8 space-y-10">
-              <p className="text-xl leading-relaxed text-gray-700 font-light">
-                Le **Pr. Farid Bourzgui** est un expert reconnu en **Orthopédie Dento-Faciale**. En plus de ses fonctions académiques à la Faculté de Médecine Dentaire, il dirige le service d'ODF au sein du Centre de Consultation et de Traitement Dentaire (CCTD).
+            <div className="md:col-span-8 space-y-12">
+              <p className="text-2xl leading-relaxed text-gray-700 font-light">
+                Le **Pr. Farid Bourzgui** est une figure emblématique de l'orthodontie. Son expertise s'étend de la recherche fondamentale à l'innovation clinique, marquant des générations de praticiens.
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="p-8 bg-[#FAF9F6] border-t-2 border-[#C5A059]">
-                  <GraduationCap className="mb-6 text-[#C5A059]" size={32} />
-                  <h4 className="text-lg font-bold mb-4 uppercase tracking-tight">Académicien</h4>
-                  <p className="text-sm text-gray-500 leading-relaxed">Engagement total dans la formation clinique des résidents et des étudiants en médecine dentaire.</p>
+                <div className="p-10 bg-[#FAF9F6] border-b-4 border-[#C5A059] hover:shadow-lg transition-all duration-500">
+                  <GraduationCap className="mb-6 text-[#C5A059]" size={40} strokeWidth={1} />
+                  <h4 className="text-lg font-bold mb-4 uppercase tracking-tighter">Formation Académique</h4>
+                  <p className="text-sm text-gray-500 leading-relaxed font-medium">Encadrement et formation continue à la Faculté de Médecine Dentaire de Casablanca.</p>
                 </div>
-                <div className="p-8 bg-[#FAF9F6] border-t-2 border-[#0D1B2A]">
-                  <Microscope className="mb-6 text-[#0D1B2A]" size={32} />
-                  <h4 className="text-lg font-bold mb-4 uppercase tracking-tight">Chercheur</h4>
-                  <p className="text-sm text-gray-500 leading-relaxed">Contribution majeure à l'orthodontie moderne à travers plus de 150 publications scientifiques.</p>
+                <div className="p-10 bg-[#FAF9F6] border-b-4 border-[#0D1B2A] hover:shadow-lg transition-all duration-500">
+                  <Microscope className="mb-6 text-[#0D1B2A]" size={40} strokeWidth={1} />
+                  <h4 className="text-lg font-bold mb-4 uppercase tracking-tighter">Recherche Mondiale</h4>
+                  <p className="text-sm text-gray-500 leading-relaxed font-medium">Auteur de multiples ouvrages de référence et de plus de 150 articles indexés.</p>
                 </div>
-              </div>
-
-              <div className="space-y-6 text-gray-600 leading-relaxed">
-                <p>
-                  Son parcours est marqué par une quête incessante d'innovation. Il a contribué à l'implémentation de techniques de pointe au Maroc, tout en assurant un encadrement rigoureux des travaux de recherche (thèses et mémoires).
-                </p>
-                <p>
-                  Membre actif de plusieurs sociétés savantes nationales et internationales, il participe régulièrement aux congrès mondiaux pour partager son expertise sur les malocclusions et les traitements interceptifs.
-                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Impact Numbers */}
-      <section className="bg-[#0D1B2A] py-24 text-white px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+      {/* STATS SECTION */}
+      <section className="bg-[#0D1B2A] py-32 text-white px-8 relative overflow-hidden">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-16 text-center relative z-10">
           {[
             { n: "25+", l: "Années d'Expérience" },
             { n: "150+", l: "Articles Indexés" },
-            { n: "12", l: "Ouvrages Académiques" },
-            { n: "CCTD", l: "Chef de Service" }
+            { n: "12", l: "Livres Publiés" },
+            
           ].map((stat, i) => (
             <div key={i}>
-              <span className="block text-5xl md:text-6xl font-serif text-[#C5A059] mb-3">{stat.n}</span>
-              <span className="text-[10px] uppercase tracking-[0.3em] opacity-40">{stat.l}</span>
+              <span className="block text-5xl md:text-7xl font-serif text-[#C5A059] mb-4">{stat.n}</span>
+              <span className="text-[10px] uppercase tracking-[0.4em] font-bold opacity-50">{stat.l}</span>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Library Section (Books) */}
+      {/* 📚 LIBRARY SECTION (Fixed Books & Links) */}
       <section id="research" className="py-32 px-8 md:px-12 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
           <div>
-            <h2 className="text-5xl font-serif mb-2 text-[#0D1B2A]">Bibliothèque d'Ouvrages</h2>
-            <p className="text-[#C5A059] uppercase tracking-[0.4em] text-[10px] font-bold">Scientific Publications & Books</p>
+            <span className="text-[#C5A059] uppercase tracking-[0.5em] text-[10px] font-black block mb-4">Savoir & Transmission</span>
+            <h2 className="text-6xl font-serif text-[#0D1B2A] leading-none italic uppercase">Ouvrages</h2>
           </div>
-          <a href="https://www.researchgate.net/profile/Farid-Bourzgui" target="_blank" className="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest border-b-2 border-[#C5A059] pb-2">
-            Explorer ResearchGate <ArrowUpRight size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          <a href="https://www.amazon.ca/s?k=Farid+Bourzgui" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 text-[10px] font-black uppercase tracking-widest border-b-2 border-[#C5A059] pb-3 hover:text-[#C5A059] transition-all">
+            Amazon Canada Library <ArrowUpRight size={16} />
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-          {[
-            { title: "L'Orthodontie Clinique", desc: "Manuel de référence sur les protocoles thérapeutiques." },
-            { title: "Céphalométrie Fondamentale", desc: "Analyse des structures cranio-faciales et croissance." },
-            { title: "Pathologies Dentaires", desc: "Étude clinique et prise en charge multidisciplinaire." }
-          ].map((item, i) => (
-            <motion.div key={i} whileHover={{ y: -15 }} className="group">
-              <div className="aspect-[3/4] bg-[#E5E1DA] mb-8 relative flex items-center justify-center border border-black/5 shadow-inner">
-                <FileText size={60} strokeWidth={0.5} className="text-[#0D1B2A]/10 group-hover:text-[#C5A059]/40 transition-colors" />
-                <div className="absolute bottom-6 left-6 right-6 h-[1px] bg-black/10" />
-                <div className="absolute top-6 right-6 text-[10px] font-mono text-black/20">ED. 2024</div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          {books.map((book, i) => (
+            <motion.a 
+              key={i} 
+              href={book.url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              whileHover={{ y: -15 }} 
+              className="group block"
+            >
+              <div className="aspect-[3/4] bg-[#F3F2EE] mb-10 relative flex items-center justify-center border border-black/5 hover:bg-[#E5E1DA] transition-colors shadow-sm group-hover:shadow-2xl overflow-hidden">
+                <FileText size={80} strokeWidth={0.3} className="text-[#0D1B2A]/10 group-hover:text-[#C5A059]/40 transition-all duration-700" />
+                <div className="absolute top-8 right-8 text-[9px] font-bold text-[#C5A059] tracking-widest uppercase">{book.year}</div>
+                <div className="absolute bottom-6 right-6 bg-[#0D1B2A] text-white p-3 rounded-full translate-y-20 group-hover:translate-y-0 transition-transform duration-500">
+                  <ExternalLink size={16} />
+                </div>
               </div>
-              <h3 className="text-2xl font-serif mb-3 text-[#0D1B2A]">{item.title}</h3>
-              <p className="text-sm text-gray-500 leading-relaxed font-light">{item.desc}</p>
-            </motion.div>
+              <h3 className="text-2xl font-serif mb-4 text-[#0D1B2A] group-hover:text-[#C5A059] transition-colors uppercase tracking-tighter leading-tight">{book.title}</h3>
+              <p className="text-sm text-gray-500 leading-relaxed font-light italic">{book.desc}</p>
+            </motion.a>
           ))}
         </div>
       </section>
 
-      {/* Footer / Contact */}
-      <section id="contact" className="py-32 bg-[#FAF9F6] border-t border-black/5 px-8">
+      {/* CONTACT SECTION */}
+      <section id="contact" className="py-40 bg-white border-t border-zinc-100 px-8">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-block p-4 rounded-full border border-[#C5A059] mb-8">
-             <Mail size={24} className="text-[#C5A059]" />
-          </div>
-          <h2 className="text-4xl md:text-6xl font-serif text-[#0D1B2A] mb-8 italic">Restons en contact</h2>
-          <p className="text-gray-500 max-w-xl mx-auto mb-16 font-light">
-            Pour toute collaboration académique ou demande d'expertise, n'hésitez pas à nous contacter via les canaux officiels.
+          <Award size={40} className="mx-auto mb-10 text-[#C5A059]" strokeWidth={1} />
+          <h2 className="text-5xl md:text-8xl font-serif text-[#0D1B2A] mb-12 italic tracking-tighter leading-none">
+            Elite <br/> Academics
+          </h2>
+          <p className="text-gray-400 max-w-xl mx-auto mb-20 text-lg font-light leading-relaxed">
+            Pour toute collaboration académique, recherche scientifique ou consultation clinique.
           </p>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-[10px] uppercase tracking-[0.3em] font-bold text-[#0D1B2A]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <div className="space-y-4">
-               <p className="opacity-40">Email</p>
-               <p>f.bourzgui@um5s.net.ma</p>
+               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#C5A059]">Email Officiel</p>
+               <p className="text-sm font-bold text-[#0D1B2A] hover:underline cursor-pointer">f.bourzgui@um5s.net.ma</p>
             </div>
             <div className="space-y-4">
-               <p className="opacity-40">Localisation</p>
-               <p>Faculté de Médecine Dentaire, Casa</p>
+               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#C5A059]">Localisation</p>
+               <p className="text-sm font-bold text-[#0D1B2A]">CCTD, Casablanca, Maârif</p>
             </div>
             <div className="space-y-4">
-               <p className="opacity-40">Institution</p>
-               <p>Chef de Service ODF - CCTD</p>
+               <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#C5A059]">Réseaux</p>
+               <div className="flex justify-center gap-6">
+                 <a href="#" className="text-sm font-bold text-[#0D1B2A] hover:text-[#C5A059]">LinkedIn</a>
+                 <a href="https://www.researchgate.net/profile/Farid-Bourzgui" className="text-sm font-bold text-[#0D1B2A] hover:text-[#C5A059]">ResearchGate</a>
+               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="py-12 text-center text-[9px] uppercase tracking-[0.6em] text-gray-400">
-        © 2026 Pr. Farid Bourzgui — Conçu pour l'Excellence Académique
+      <footer className="py-16 text-center text-[8px] uppercase tracking-[0.8em] text-gray-400 bg-white border-t border-zinc-50 font-bold">
+        © 2026 PR. FARID BOURZGUI — DESIGNED FOR ACADEMIC EXCELLENCE
       </footer>
 
     </main>
